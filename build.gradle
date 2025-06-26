@@ -13,6 +13,19 @@ plugins {
     id "io.qameta.allure" version "2.12.0"
 }
 
+// ---
+
+java {
+    // Настраиваем JVM Toolchain для Java на версию 21,
+    // чтобы соответствовать версии, которую мы зададим для Kotlin.
+    // Убедитесь, что JDK 21 установлена на вашей сборочной машине.
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+
+// ---
+
 ext {
     jwtVersion = "4.5.0"
     openApiVersion = "2.8.5"
@@ -49,7 +62,13 @@ configurations {
     guiRuntimeOnly.extendsFrom testRuntimeOnly
 }
 
-[compileKotlin, compileTestKotlin, compileGuiKotlin]*.kotlinOptions*.jvmTarget = "17"
+// ---
+
+// Устанавливаем jvmTarget для всех Kotlin-компиляторов на "21",
+// чтобы он соответствовал настроенной версии для Java.
+[compileKotlin, compileTestKotlin, compileGuiKotlin]*.kotlinOptions*.jvmTarget = "21"
+
+// ---
 
 dependencies {
     implementation "org.springframework.boot:spring-boot-starter-web"
